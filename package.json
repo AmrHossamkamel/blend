@@ -1,0 +1,21 @@
+{
+  "name": "blend-menu",
+  "version": "1.0.0",
+  "description": "BLEND — Luxury Botanical Menu & Signature Beverage Showcase",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "start": "python -m http.server 8000",
+    "build": "echo 'Static build ready for production'"
+  },
+  "keywords": [
+    "blend",
+    "coffee",
+    "menu",
+    "catering",
+    "luxury",
+    "events"
+  ],
+  "author": "BLEND",
+  "license": "MIT"
+}

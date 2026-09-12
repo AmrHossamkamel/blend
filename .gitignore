@@ -1,0 +1,13 @@
+# Vercel & Deployment
+.vercel
+node_modules/
+
+# Local server & environment
+*.log
+custom_ngrok.yml
+scratch/
+.system_generated/
+
+# OS Files
+Thumbs.db
+.DS_Store

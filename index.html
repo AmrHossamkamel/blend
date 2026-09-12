@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BLEND — Luxury Botanical Menu & Signature Showcase</title>
+  <meta name="description" content="BLEND luxury digital coffee & beverage menu. Signature drinks, specialty roasts, matcha, desserts and catering events.">
+  <link rel="stylesheet" href="styles.css">
+  <!-- html2canvas for high-res PNG export -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body class="deck-mode">
+  <!-- Atmospheric Ambiance & Warm Lighting -->
+  <div class="ambient-backdrop">
+    <div class="ambient-glow glow-top"></div>
+    <div class="ambient-glow glow-card"></div>
+    <div class="ambient-glow glow-bottom"></div>
+    <div class="dust-particles" id="dustParticles"></div>
+  </div>
+
+  <!-- Top Luxury Header -->
+  <header class="app-header">
+    <div class="brand-group">
+      <div class="logo-circle">
+        <span class="logo-b">B</span>
+      </div>
+      <div class="brand-meta">
+        <div class="brand-name">. B L E N D .</div>
+        <div class="brand-badge-tag">
+          <span class="status-dot"></span>
+          <span>Signature Drinks &bull; Catering &bull; Events</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions & Toolbar -->
+    <div class="toolbar-group">
+      <!-- Search Trigger -->
+      <button class="tool-btn" id="searchToggleBtn" title="Search drinks & items">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span class="btn-label">Search</span>
+      </button>
+
+      <!-- Book Spread / Single Card Toggle (Desktop) -->
+      <button class="tool-btn" id="bookViewToggleBtn" title="Toggle 2-Page Book Spread">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <span class="btn-label">Book Spread</span>
+      </button>
+
+      <!-- Edit Mode Toggle -->
+      <button class="tool-btn" id="toggleEditBtn" title="Live text editing">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+        <span class="btn-label" id="editBtnLabel">Edit</span>
+      </button>
+
+      <!-- Export High-Res PNG -->
+      <button class="tool-btn" id="exportPngBtn" title="Save high-resolution image to share">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span class="btn-label">Export</span>
+      </button>
+
+      <!-- Print Menu -->
+      <button class="tool-btn btn-highlight" id="printBtn" title="Print card or save PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span class="btn-label">Print</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Live Search Drawer (Collapsible) -->
+  <div class="search-panel" id="searchPanel">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="menuSearchInput" placeholder="Search menu items (e.g. Spanish, caramel, matcha, babka)..." autocomplete="off">
+      <button class="search-clear-btn" id="clearSearchBtn">&times;</button>
+    </div>
+    <div class="search-results-list" id="searchResultsList"></div>
+  </div>
+
+  <!-- Category Nav Tabs (Pills with Progress) -->
+  <nav class="category-dock">
+    <div class="category-track" id="categoryTabs">
+      <button class="cat-tab active" data-page="0">
+        <span class="cat-num">01</span>
+        <span class="cat-title">Signatures</span>
+      </button>
+      <button class="cat-tab" data-page="1">
+        <span class="cat-num">02</span>
+        <span class="cat-title">Coffee</span>
+      </button>
+      <button class="cat-tab" data-page="2">
+        <span class="cat-num">03</span>
+        <span class="cat-title">Refreshers</span>
+      </button>
+      <button class="cat-tab" data-page="3">
+        <span class="cat-num">04</span>
+        <span class="cat-title">Sweets</span>
+      </button>
+      <button class="cat-tab" data-page="4">
+        <span class="cat-num">05</span>
+        <span class="cat-title">Catering</span>
+      </button>
+      <button class="cat-tab tab-all" data-page="all" id="gridToggleTab">
+        <span class="cat-title">All Boards</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main 3D Card Presentation Deck -->
+  <main class="presentation-stage">
+    <!-- Navigation Arrow Left -->
+    <button class="stage-nav-arrow arrow-prev" id="prevBtn" aria-label="Previous Menu Page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+
+    <!-- 3D Card Stack Container -->
+    <div class="card-stage-viewport" id="cardStageViewport">
+      <!-- Background stacked peek cards for luxury 3D depth -->
+      <div class="stack-card stack-card-3"></div>
+      <div class="stack-card stack-card-2" id="stackCardPreview"></div>
+
+      <!-- Active Primary Menu Card -->
+      <article class="menu-card active-card" id="activeMenuCard">
+        <!-- Botanical Vector Frame -->
+        <div class="botanical-frame-svg" id="cardFrameSvg"></div>
+
+        <!-- Light sheen gloss reflection on page turns -->
+        <div class="card-sheen-sweep" id="cardSheen"></div>
+
+        <!-- Inner Content (Populated dynamically) -->
+        <div class="card-content" id="activeCardContent">
+          <!-- Filled dynamically by script.js -->
+        </div>
+      </article>
+
+      <!-- Second Card for Two-Page Book Spread Mode -->
+      <article class="menu-card secondary-book-card" id="bookSpreadRightCard">
+        <div class="botanical-frame-svg" id="bookRightFrameSvg"></div>
+        <div class="card-content" id="bookRightCardContent"></div>
+      </article>
+    </div>
+
+    <!-- Navigation Arrow Right -->
+    <button class="stage-nav-arrow arrow-next" id="nextBtn" aria-label="Next Menu Page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+
+    <!-- All Pages Grid View (When toggled) -->
+    <div class="all-boards-gallery" id="allPagesGrid"></div>
+  </main>
+
+  <!-- Bottom Floating Interactive Control Dock -->
+  <footer class="bottom-floating-dock">
+    <!-- Page indicator counter -->
+    <div class="dock-counter">
+      <span class="current-num" id="dockCurrentPage">01</span>
+      <span class="divider">/</span>
+      <span class="total-num">05</span>
+      <span class="dock-page-name" id="dockPageName">Signatures</span>
+    </div>
+
+    <!-- Quick Thumbnail Mini-Strip -->
+    <div class="dock-thumbnails" id="dockThumbnails">
+      <button class="thumb-node active" data-index="0" title="1. Signatures"></button>
+      <button class="thumb-node" data-index="1" title="2. Coffee"></button>
+      <button class="thumb-node" data-index="2" title="3. Refreshers"></button>
+      <button class="thumb-node" data-index="3" title="4. Sweets"></button>
+      <button class="thumb-node" data-index="4" title="5. Catering"></button>
+    </div>
+
+    <!-- Inquiry Selection Cart Pill -->
+    <div class="dock-order-pill" id="orderCartPill">
+      <button class="cart-trigger-btn" id="openCartBtn">
+        <span class="cart-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <span class="cart-badge" id="cartBadgeCount">0</span>
+        </span>
+        <span class="cart-info">
+          <span class="cart-label">Event Selection</span>
+          <span class="cart-sub" id="cartTotalSum">0 SAR</span>
+        </span>
+        <span class="cart-arrow">&rarr;</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Item Quick Detail & Add Modal -->
+  <div class="modal-backdrop" id="itemModal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      
+      <div class="modal-header-brand">
+        <span class="modal-b">B</span>
+        <span class="modal-blend-tag">. B L E N D .</span>
+      </div>
+
+      <h3 class="modal-item-title" id="modalTitle">Drink Name</h3>
+      
+      <div class="modal-price-tag" id="modalPrice">28 SAR</div>
+      
+      <p class="modal-item-desc" id="modalDesc">
+        Handcrafted with our artisan espresso roast, infused with velvety sweet microfoam and botanical notes.
+      </p>
+
+      <div class="modal-actions-wrap">
+        <button class="btn-modal-add" id="modalAddCartBtn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Add to Event Selection</span>
+        </button>
+        
+        <a href="#" target="_blank" class="btn-modal-whatsapp" id="modalWhatsAppBtn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span>Quick WhatsApp Inquiry</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart / Order Summary Drawer -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <div class="cart-drawer" id="cartDrawer">
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <h3>Your Event Selection</h3>
+          <span class="drawer-subtitle">Ready to send directly to BLEND via WhatsApp</span>
+        </div>
+        <button class="drawer-close-btn" id="closeCartBtn">&times;</button>
+      </div>
+
+      <div class="drawer-items-list" id="cartItemsList">
+        <div class="empty-cart-msg">
+          <p>No items selected yet.</p>
+          <small>Click on any drink or catering item to add it to your event proposal!</small>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <div class="drawer-summary-row">
+          <span>Estimated Total:</span>
+          <span class="drawer-total-amount" id="drawerTotalAmount">0 SAR</span>
+        </div>
+        
+        <a href="#" target="_blank" class="btn-send-whatsapp" id="drawerSendWhatsAppBtn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span>Send Order & Inquiry on WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Pill -->
+  <div class="toast-pill" id="toastPill"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
